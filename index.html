@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Locker IoT - Dark Neo Futuristic</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-server glow-cyan"></i>
+            <h2>SMART LOCKER <span class="badge-iot">IoT NODE</span></h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#hero">Beranda</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#simulation">Simulasi Node</a></li>
+                <li><a href="#hardware">Perangkat</a></li>
+                <li><a href="#logs">Log Akses</a></li>
+            </ul>
+        </nav>
+        <div class="system-badge standby" id="nav-system-badge">
+            <i class="fa-solid fa-signal"></i> <span id="nav-status-text">Standby</span>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <span class="badge-tag"><i class="fa-solid fa-microchip"></i> Neo-Futuristic Security System</span>
+            <h1>Sistem Keamanan Loker Berbasis Sensor FPM10A</h1>
+            <p>Prototipe interaktif pemindaian biometrik dengan integrasi mikrokontroler Arduino Uno, LCD 16x2 I2C, serta aktuator Servo SG90 dalam antarmuka IoT modern.</p>
+            <div class="hero-btns">
+                <a href="#simulation" class="btn-primary"><i class="fa-solid fa-terminal"></i> Buka Terminal Simulasi</a>
+                <a href="#hardware" class="btn-secondary"><i class="fa-solid fa-diagram-project"></i> Skema Hardware</a>
+            </div>
+        </div>
+        <div class="hero-illustration">
+            <div class="hero-card-floating">
+                <i class="fa-solid fa-fingerprint glow-cyan pulse-glow"></i>
+                <i class="fa-solid fa-vault glow-blue"></i>
+                <i class="fa-solid fa-wifi glow-indigo"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Section -->
+    <section id="dashboard" class="container">
+        <h2 class="section-title"><i class="fa-solid fa-chart-line"></i> Dashboard Monitoring Telemetri</h2>
+        <div class="dashboard-grid">
+            <div class="card glass-dark">
+                <h3>Status Arduino Uno</h3>
+                <p id="dash-arduino" class="status-val text-green"><i class="fa-solid fa-check-circle"></i> Online (Simulated)</p>
+            </div>
+            <div class="card glass-dark">
+                <h3>Sensor Fingerprint</h3>
+                <p id="dash-sensor" class="status-val text-gray">Ready</p>
+            </div>
+            <div class="card glass-dark">
+                <h3>Autentikasi Biometrik</h3>
+                <p id="dash-auth" class="status-val text-gray">Standby</p>
+            </div>
+            <div class="card glass-dark">
+                <h3>Pintu Loker</h3>
+                <p id="dash-door" class="status-val text-gray">Terkunci (0°)</p>
+            </div>
+            <div class="card glass-dark">
+                <h3>Posisi Servo SG90</h3>
+                <p id="dash-lock" class="status-val text-red">0° (Terkunci)</p>
+            </div>
+            <div class="card glass-dark">
+                <h3>Statistik Akses</h3>
+                <div class="stat-box">
+                    <span class="stat-success">Berhasil: <strong id="dash-success-count">0</strong></span>
+                    <span class="stat-failed">Gagal: <strong id="dash-failed-count">0</strong></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Simulation Section -->
+    <section id="simulation" class="container">
+        <h2 class="section-title"><i class="fa-solid fa-sliders"></i> Panel Simulasi IoT Smart Locker</h2>
+        <div class="sim-wrapper">
+            
+            <!-- Fingerprint Control & LCD Display -->
+            <div class="sim-card glass-dark">
+                <h3><i class="fa-solid fa-desktop"></i> Antarmuka Tampilan Depan Loker</h3>
+                
+                <div class="lcd-display" id="lcd-screen">
+                    <div class="lcd-line" id="lcd-line1">Tempelkan Jari</div>
+                    <div class="lcd-line" id="lcd-line2">Untuk Akses</div>
+                </div>
+
+                <div class="fingerprint-scanner" id="scanner-box">
+                    <i class="fa-solid fa-fingerprint fp-icon" id="fp-icon"></i>
+                    <div class="scan-line" id="scan-line"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="user-select"><i class="fa-solid fa-id-card"></i> Pilih Pengguna Terdaftar:</label>
+                    <select id="user-select">
+                        <option value="1">ID 1 - Ahmad Yusuf Musthofa (Terdaftar)</option>
+                        <option value="2">ID 2 - Alfian Juliano Wardana (Terdaftar)</option>
+                        <option value="3">ID 3 - Hasna Karima (Terdaftar)</option>
+                        <option value="4">ID 4 - Hisyam Hibatulloh (Terdaftar)</option>
+                        <option value="5">ID 5 - Zaky Atha Ramadhan (Terdaftar)</option>
+                        <option value="invalid">ID 99 - Jari Tidak Terdaftar / Asing</option>
+                    </select>
+                </div>
+
+                <div class="toggle-group">
+                    <label class="switch">
+                        <input type="checkbox" id="auto-lock-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <span>Penguncian Otomatis Servo (Auto-Lock)</span>
+                </div>
+
+                <button class="btn-action" id="btn-scan" onclick="startScan()">
+                    <i class="fa-solid fa-hand-pointer"></i> Tempelkan Jari Ke Sensor
+                </button>
+            </div>
+
+            <!-- Door & Servo Mechanism Visual -->
+            <div class="sim-card glass-dark text-center">
+                <h3><i class="fa-solid fa-gears"></i> Visualisasi Pintu & Mekanisme Servo SG90</h3>
+                <div class="door-frame">
+                    <div class="door" id="door-element">
+                        <div class="locker-handle"></div>
+                        <div class="servo-arm" id="servo-arm" title="Pengait Servo SG90"></div>
+                    </div>
+                </div>
+                <div class="door-status-badge" id="door-status-text">Pintu Terkunci | Servo: 0°</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Hardware Specifications -->
+    <section id="hardware" class="container">
+        <h2 class="section-title"><i class="fa-solid fa-microchip"></i> Modul Hardware & Aktuator</h2>
+        
+        <div class="hardware-grid">
+            <div class="hw-card glass-dark">
+                <i class="fa-solid fa-lightbulb led-icon" id="led-green"></i>
+                <h4>LED Hijau (Pin D8)</h4>
+                <p>Indikator Akses Diterima</p>
+            </div>
+            <div class="hw-card glass-dark">
+                <i class="fa-solid fa-lightbulb led-icon" id="led-red"></i>
+                <h4>LED Merah (Pin D9)</h4>
+                <p>Indikator Akses Ditolak</p>
+            </div>
+            <div class="hw-card glass-dark">
+                <i class="fa-solid fa-volume-high buzzer-icon" id="buzzer-icon"></i>
+                <h4>Buzzer (Pin D10)</h4>
+                <p>Audio Umpan Balik Tone</p>
+            </div>
+            <div class="hw-card glass-dark">
+                <i class="fa-solid fa-gear servo-hw-icon" id="servo-hw-icon"></i>
+                <h4>Servo SG90 (Pin D11)</h4>
+                <p>Pengait Mekanis (0° / 90°)</p>
+            </div>
+        </div>
+
+        <div class="spec-grid margin-top">
+            <div class="spec-card glass-dark">
+                <h4><i class="fa-solid fa-ruler-combined"></i> Dimensi Desain Prototipe</h4>
+                <ul>
+                    <li><strong>Tinggi:</strong> 25 cm</li>
+                    <li><strong>Panjang:</strong> 20 cm</li>
+                    <li><strong>Lebar:</strong> 15 cm</li>
+                    <li><strong>Bahan Utama:</strong> Karton Tebal Khusus</li>
+                </ul>
+            </div>
+            <div class="spec-card glass-dark">
+                <h4><i class="fa-solid fa-shield-check"></i> Fitur Proteksi Neo-IoT</h4>
+                <ul>
+                    <li><i class="fa-solid fa-check text-green"></i> Autentikasi Biometrik Presisi Tinggi</li>
+                    <li><i class="fa-solid fa-check text-green"></i> Tampilan LCD 16x2 I2C Interaktif</li>
+                    <li><i class="fa-solid fa-check text-green"></i> Aktuator Servo SG90 Responsif</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Log Section -->
+    <section id="logs" class="container">
+        <div class="log-header">
+            <h2 class="section-title"><i class="fa-solid fa-list-check"></i> Telemetri Riwayat Akses</h2>
+            <div>
+                <button class="btn-danger" onclick="clearLogs()"><i class="fa-solid fa-trash"></i> Hapus Log</button>
+                <button class="btn-warning" onclick="resetSystem()"><i class="fa-solid fa-rotate-left"></i> Reset Sistem</button>
+            </div>
+        </div>
+        <div class="table-responsive glass-dark">
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Waktu Pemindaian</th>
+                        <th>ID Jari</th>
+                        <th>Nama Pengguna Terdaftar</th>
+                        <th>Hasil Autentikasi</th>
+                        <th>Status Servo & Pintu</th>
+                    </tr>
+                </thead>
+                <tbody id="log-table-body">
+                    <tr>
+                        <td colspan="6" class="text-center text-gray">Belum ada riwayat aktivitas pemindaian.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p><strong>SMART LOCKER IoT NODE</strong> | Praktikum Algoritma & Bahasa Pemrograman Komputer</p>
+        <p>Dark Neo-Futuristic Engine Interface | Web-Based Simulation</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
